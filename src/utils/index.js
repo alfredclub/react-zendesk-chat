@@ -1,10 +1,5 @@
-import config from 'config';
-const { ENV } = config;
-
-export function log() {
-	if (ENV === 'dev') {
-		console.log.apply(console, arguments); // eslint-disable-line no-console
-	}
+export function log(...args) {
+		console.log.apply(console, args); // eslint-disable-line no-console
 }
 
 export function isAgent(nick){

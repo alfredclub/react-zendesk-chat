@@ -36,7 +36,6 @@ module.exports = {
       stores: `${defaultSettings.srcPath}/stores/`,
       styles: `${defaultSettings.srcPath}/styles/`,
       utils: `${defaultSettings.srcPath}/utils/`,
-      config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV,
       vendor: defaultSettings.vendorPath,
       React: __dirname + '/../node_modules/react'
     }
