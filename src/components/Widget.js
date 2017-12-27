@@ -30,7 +30,6 @@ class App extends Component {
     this.isOffline = this.isOffline.bind(this);
     this.stopTyping = debounce(this.stopTyping.bind(this), 1000);
     this.setVisible = this.setVisible.bind(this);
-    this.setTheme = this.setTheme.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
   }
 
@@ -57,11 +56,6 @@ class App extends Component {
         });
       });
     });
-
-    // Expose onThemeChange to allow dynamic change of theme
-    if (ENV === 'dev') {
-      window.onThemeChange = this.onThemeChange.bind(this);
-    }
 
     this.setState({
       visible: get('visible') || this.state.visible,
@@ -197,25 +191,6 @@ class App extends Component {
     return entities;
   }
 
-  setTheme(theme) {
-    this.setState({
-      theme
-    });
-    set('theme', theme);
-  }
-
-  onThemeChange(theme) {
-    if (theme !== 'docked' && theme !== 'normal') {
-      theme = 'docked';
-    }
-
-    this.setTheme(theme);
-  }
-
-  getTheme() {
-    return this.state.theme;
-  }
-
   isOffline() {
     return this.props.data.account_status === 'offline' && !this.props.data.is_chatting;
   }
@@ -223,14 +198,16 @@ class App extends Component {
   render() {
     const entities = this.mapToEntities(this.props.data.visitor, this.props.data.agents);
     const isOffline = this.isOffline();
+    const { spinner } = this.props.styles;
 
     return (
       <div className="index">
-        <div className={`widget-container ${this.getTheme()} ${this.getVisibilityClass()}`}>
+        <div className={`widget-container normal ${this.getVisibilityClass()}`}>
           <StatusContainer
             accountStatus={this.props.data.account_status}
             minimizeOnClick={this.minimizeOnClick}
           />
+
           <MessageList
             isChatting={this.props.data.is_chatting}
             isOffline={isOffline}
@@ -238,9 +215,12 @@ class App extends Component {
             agents={this.props.data.agents}
             entities={entities}
           />
-          <div className={`spinner-container ${this.state.visible && this.props.data.connection !== 'connected' ? 'visible' : ''}`}>
+
+          <div className={`spinner-container ${this.state.visible && this.props.data.connection !== 'connected' ? 'visible' : ''}`}
+            styles={spinner}>
             <div className="spinner"></div>
           </div>
+
           <Input
             addClass={this.props.data.is_chatting ? 'visible' : ''}
             ref="input"
@@ -250,6 +230,7 @@ class App extends Component {
             onFileUpload={this.handleFileUpload}
           />
         </div>
+
         <ChatButton addClass={this.getVisibilityClass()} onClick={this.chatButtonOnClick} />
       </div>
     );
