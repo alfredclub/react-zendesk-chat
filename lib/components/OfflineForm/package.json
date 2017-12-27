@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "OfflineForm",
+  "main": "./OfflineForm.js"
+}

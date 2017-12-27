@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "ChatWidget",
+  "main": "./ChatWidget.js"
+}
