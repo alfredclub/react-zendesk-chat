@@ -1,8 +1,8 @@
 {
   "name": "react-zendesk-chat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Zendesk Web SDK Chat App (React)",
-  "main": "",
+  "main": "./lib/index.js",
   "scripts": {
     "clean": "rimraf dist/*",
     "copy": "copyfiles -f ./src/index.html ./dist",
