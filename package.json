@@ -1,6 +1,6 @@
 {
   "name": "react-zendesk-chat",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Zendesk Web SDK Chat App (React)",
   "main": "./lib/index.js",
   "scripts": {
