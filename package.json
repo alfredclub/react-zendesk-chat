@@ -1,8 +1,8 @@
 {
-  "name": "chat-web-sdk-react-sample",
+  "name": "react-zendesk-chat",
   "private": true,
-  "version": "0.0.1",
-  "description": "Zopim Web SDK Sample App (React)",
+  "version": "1.0.0",
+  "description": "Zendesk Web SDK Chat App (React)",
   "main": "",
   "scripts": {
     "clean": "rimraf dist/*",
