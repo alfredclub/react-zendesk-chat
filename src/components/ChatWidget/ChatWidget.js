@@ -238,9 +238,10 @@ class App extends Component {
 
 App.displayName = 'App';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
-    data: state
+    data: state,
+    ...props
   }
 }
 
