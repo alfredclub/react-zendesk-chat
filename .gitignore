@@ -32,5 +32,3 @@ bower_components/
 .DS_Store
 
 dist/
-
-vendor/web-sdk.js
