@@ -199,7 +199,6 @@ class App extends Component {
   render() {
     const entities = this.mapToEntities(this.props.data.visitor, this.props.data.agents);
     const isOffline = this.isOffline();
-    const { spinner } = this.props.styles;
 
     return (
       <div className="index">
@@ -217,8 +216,7 @@ class App extends Component {
             entities={entities}
           />
 
-          <div className={`spinner-container ${this.state.visible && this.props.data.connection !== 'connected' ? 'visible' : ''}`}
-            styles={spinner}>
+          <div className={`spinner-container ${this.state.visible && this.props.data.connection !== 'connected' ? 'visible' : ''}`}>
             <div className="spinner"></div>
           </div>
 
@@ -239,14 +237,6 @@ class App extends Component {
 }
 
 App.displayName = 'App';
-
-App.propTypes = {
-  styles: PropTypes.object
-};
-
-App.defaultProps = {
-  styles: {}
-};
 
 const mapStateToProps = (state) => {
   return {
