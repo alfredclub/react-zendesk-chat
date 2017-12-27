@@ -4,8 +4,8 @@ import Widget from './components/ChatWidget';
 import { Provider } from 'react-redux'
 import ChatStore from './stores/ChatStore';
 
-export const ZendeskChat = () => (
+export const ZendeskChat = (props) => (
   <Provider store={ChatStore}>
-	  <Widget />
+	  <Widget {...props}/>
 	</Provider>
 );

@@ -240,10 +240,10 @@ App.displayName = 'App';
 
 const mapStateToProps = (state, props) => {
   return {
-    data: state,
-    ...props
+    ...props,
+    data: state
   }
-}
+};
 
 const WrappedApp = connect(
   mapStateToProps
