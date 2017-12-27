@@ -1,6 +1,5 @@
 require('styles/Widget.scss');
 
-import config from 'config';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import StatusContainer from 'components/StatusContainer';
@@ -11,20 +10,16 @@ import { log, get, set } from 'utils';
 import { debounce } from 'lodash';
 import zChat from 'vendor/web-sdk';
 
-const { ENV, ACCOUNT_KEY, THEME } = config;
-
-if (ENV === 'dev') {
-  window.zChat = zChat;
-}
-
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
-      theme: THEME,
+      theme: this.props.theme,
       typing: false,
       visible: false
     };
+
     this.timer = null;
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -41,7 +36,7 @@ class App extends Component {
 
   componentDidMount() {
     zChat.init({
-      account_key: ACCOUNT_KEY
+      account_key: this.props.accountKey
     });
 
     const events = [
@@ -102,6 +97,7 @@ class App extends Component {
 
     // Immediately stop typing
     this.stopTyping.flush();
+
     zChat.sendChatMsg(msg, (err) => {
       if (err) {
         log('Error occured >>>', err);
@@ -225,23 +221,6 @@ class App extends Component {
   }
 
   render() {
-    if (!ACCOUNT_KEY) {
-      if (ENV === 'dev') {
-        return (
-          <div className="warning-container">
-            <div className="warning">
-              🚨🚨🚨&nbsp;&nbsp;&nbsp;You might have forgotten to configure the widget with your own account key.&nbsp;&nbsp;&nbsp;🚨🚨🚨
-              <br/><br/>
-              Check the README for more details.
-            </div>
-          </div>
-        );
-      }
-      else {
-        return <div/>;
-      }
-    }
-
     const entities = this.mapToEntities(this.props.data.visitor, this.props.data.agents);
     const isOffline = this.isOffline();
 
