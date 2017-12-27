@@ -2,10 +2,10 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import Avatar from 'components/Avatar';
-import ChatMedia from 'components/ChatMedia';
-import { log } from 'utils';
-import zChat from 'vendor/web-sdk';
+import Avatar from './../Avatar';
+import ChatMedia from './../ChatMedia';
+import { log } from './../../utils';
+import zChat from './../../../vendor/web-sdk';
 
 class ChatMessage extends Component {
   constructor(props) {

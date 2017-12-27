@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import SendButton from 'components/SendButton';
+import SendButton from './../SendButton';
 
 class Input extends Component {
   constructor(props) {

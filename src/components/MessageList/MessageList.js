@@ -2,12 +2,12 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import ChatMessage from 'components/ChatMessage';
-import SystemMessage from 'components/SystemMessage';
-import Avatar from 'components/Avatar';
-import OfflineForm from 'components/OfflineForm';
-import PrechatForm from 'components/PrechatForm';
-import ChatRating from 'components/ChatRating';
+import ChatMessage from './../ChatMessage';
+import SystemMessage from './../SystemMessage';
+import Avatar from './../Avatar';
+import OfflineForm from './../OfflineForm';
+import PrechatForm from './../PrechatForm';
+import ChatRating from './../ChatRating';
 
 class MessageList extends Component {
   constructor(props) {

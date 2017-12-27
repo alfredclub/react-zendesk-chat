@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import ChatImage from 'components/ChatImage';
+import ChatImage from './../ChatImage';
 
 class ChatMedia extends Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
-import CardContainer from 'components/CardContainer';
-import ActionButton from 'components/ActionButton';
+import CardContainer from './../CardContainer';
+import ActionButton from './../ActionButton';
 
 class ChatRating extends Component {
   constructor(props) {

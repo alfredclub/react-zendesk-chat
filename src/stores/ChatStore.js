@@ -1,4 +1,4 @@
-import { log, isAgent, isTrigger } from 'utils';
+import { log, isAgent, isTrigger } from './../utils';
 import { createStore } from 'redux';
 import SortedMap from 'collections/sorted-map';
 

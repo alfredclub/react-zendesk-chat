@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { isAgent } from 'utils';
+import { isAgent } from './../../utils';
 
 class Avatar extends Component {
   getVisitorSvg() {

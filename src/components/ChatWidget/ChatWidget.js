@@ -2,13 +2,13 @@ require('styles/Widget.scss');
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import StatusContainer from 'components/StatusContainer';
-import MessageList from 'components/MessageList';
-import ChatButton from 'components/ChatButton';
-import Input from 'components/Input';
-import { log, get, set } from 'utils';
+import StatusContainer from './../StatusContainer';
+import MessageList from './../MessageList';
+import ChatButton from './../ChatButton';
+import Input from './../Input';
+import { log, get, set } from './../../utils';
 import { debounce } from 'lodash';
-import zChat from 'vendor/web-sdk';
+import zChat from './../../../vendor/web-sdk';
 
 class App extends Component {
   constructor(props) {

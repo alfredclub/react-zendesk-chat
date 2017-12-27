@@ -1,11 +1,11 @@
 'use strict';
 
 import React, { Component } from 'react';
-import CardContainer from 'components/CardContainer';
-import MessageSvg from 'components/MessageSvg';
-import ActionButton from 'components/ActionButton';
+import CardContainer from './../CardContainer';
+import MessageSvg from './../MessageSvg';
+import ActionButton from './../ActionButton';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import zChat from 'vendor/web-sdk';
+import zChat from './../../../vendor/web-sdk';
 
 class OfflineForm extends Component {
   constructor(props) {

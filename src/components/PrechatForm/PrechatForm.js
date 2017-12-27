@@ -1,12 +1,12 @@
 'use strict';
 
 import React, { Component } from 'react';
-import CardContainer from 'components/CardContainer';
-import MessageSvg from 'components/MessageSvg';
-import ActionButton from 'components/ActionButton';
-import { log } from 'utils';
+import CardContainer from './../CardContainer';
+import MessageSvg from './../MessageSvg';
+import ActionButton from './../ActionButton';
+import { log } from './../../utils';
 import { connect } from 'react-redux'
-import zChat from 'vendor/web-sdk';
+import zChat from './../../../vendor/web-sdk';
 
 class PrechatForm extends Component {
   constructor(props) {
