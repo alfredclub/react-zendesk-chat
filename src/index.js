@@ -6,6 +6,6 @@ import ChatStore from './stores/ChatStore';
 
 export const ZendeskChat = () => (
   <Provider store={ChatStore}>
-			<Widget />
-		</Provider>
+	  <Widget />
+	</Provider>
 );

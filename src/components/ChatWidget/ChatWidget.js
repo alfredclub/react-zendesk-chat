@@ -1,6 +1,7 @@
 require('styles/Widget.scss');
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import StatusContainer from './../StatusContainer';
 import MessageList from './../MessageList';
@@ -238,6 +239,14 @@ class App extends Component {
 }
 
 App.displayName = 'App';
+
+App.propTypes = {
+  styles: PropTypes.object
+};
+
+App.defaultProps = {
+  styles: {}
+};
 
 const mapStateToProps = (state) => {
   return {
