@@ -37,6 +37,12 @@ class App extends Component {
       account_key: this.props.accountKey
     });
 
+    const { name, email, phone } = this.props.visitor;
+
+    zChat.setVisitorInfo({
+      email, display_name: name, phone
+    });
+
     const events = [
       'account_status',
       'connection_update',
