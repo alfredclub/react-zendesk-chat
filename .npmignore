@@ -1,10 +1,11 @@
 cfg/
 src/
 
-.gitignore
+.babelrc
 .editorconfig
 .eslintrc
 .eslintignore
+.gitignore
 
 server.js
-webpack.conig.js
+webpack.config.js
