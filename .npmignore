@@ -1,0 +1,10 @@
+cfg/
+src/
+
+.gitignore
+.editorconfig
+.eslintrc
+.eslintignore
+
+server.js
+webpack.conig.js
