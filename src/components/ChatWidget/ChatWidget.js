@@ -37,11 +37,7 @@ class App extends Component {
       account_key: this.props.accountKey
     });
 
-    const { name, email, phone } = this.props.visitor;
-
-    zChat.setVisitorInfo({
-      email, display_name: name, phone
-    });
+    this.setVisitorInfo();
 
     const events = [
       'account_status',
@@ -66,6 +62,16 @@ class App extends Component {
       visible: get('visible') || this.state.visible,
       theme: get('theme') || this.state.theme
     });
+  }
+
+  setVisitorInfo() {
+    if (this.props.visitor) {
+      const { name, email, phone } = this.props.visitor;
+
+      zChat.setVisitorInfo({
+        email, display_name: name, phone
+      });
+    }
   }
 
   handleOnChange() {
@@ -186,7 +192,7 @@ class App extends Component {
       });
     }
 
-    if (this.props.data.account_status === 'offline' && !this.props.data.is_chatting) {
+    if (this.isOffline()) {
       entities['agent:offline'] = {
         type: 'agent',
         nick: 'agent:offline'
@@ -197,7 +203,11 @@ class App extends Component {
   }
 
   isOffline() {
-    return this.props.data.account_status === 'offline' && !this.props.data.is_chatting;
+    return this.props.data.account_status === 'offline' && !this.isChatEnabled();
+  }
+
+  isChatEnabled() {
+    return this.props.data.is_chatting || !!this.props.visitor;
   }
 
   render() {
@@ -213,7 +223,7 @@ class App extends Component {
           />
 
           <MessageList
-            isChatting={this.props.data.is_chatting}
+            isChatting={this.isChatEnabled()}
             isOffline={isOffline}
             messages={this.props.data && this.props.data.chats.toArray()}
             agents={this.props.data.agents}
@@ -225,7 +235,7 @@ class App extends Component {
           </div>
 
           <Input
-            addClass={this.props.data.is_chatting ? 'visible' : ''}
+            addClass={this.isChatEnabled() ? 'visible' : ''}
             ref="input"
             onSubmit={this.handleOnSubmit}
             onChange={this.handleOnChange}

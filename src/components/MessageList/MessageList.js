@@ -12,6 +12,7 @@ import ChatRating from './../ChatRating';
 class MessageList extends Component {
   constructor(props) {
     super(props);
+
     this.renderTyping = this.renderTyping.bind(this);
     this.renderByType = this.renderByType.bind(this);
   }
@@ -86,9 +87,11 @@ class MessageList extends Component {
   }
 
   renderAll(isOffline, messages) {
+    let allMessages = [...messages];
+
     if (isOffline) {
-      messages = [];
-      messages.push({
+      allMessages = [];
+      allMessages.push({
         type: 'chat.msg',
         display_name: 'Chat Agent',
         nick: 'agent:offline',
@@ -96,18 +99,18 @@ class MessageList extends Component {
         member_type: 'agent',
         msg: 'Sorry, we are offline at the moment. Please leave us your contact information and we will get back to you soon!'
       });
-      messages.push({
+      allMessages.push({
         type: 'offline'
       });
     } else if (!this.props.isChatting) {
-      messages = [{
+      allMessages = [{
         type: 'prechat'
       }];
     }
 
     let prev = null;
 
-    return messages.map((message) => {
+    return allMessages.map((message) => {
       let addClass = '',
           currentNick = message.nick,
           prevNick = prev && prev.nick;
