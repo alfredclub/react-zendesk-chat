@@ -14,12 +14,12 @@
     "start": "node server.js --env=dev",
     "lib": "babel src --out-dir lib --copy-files"
   },
-  "repository": "",
-  "keywords": [],
-  "author": "Zendesk",
+  "repository": "https://github.com/vyzaldysanchez/react-zendesk-chat",
+  "keywords": ["react", "javascript", "es6", "zendesk", "chat"],
+  "author": "Vyzaldy Andres Sanchez",
   "engineStrict": true,
   "engines": {
-    "node": ">=4.5.0"
+    "node": ">=6.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
