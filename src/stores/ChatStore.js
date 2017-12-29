@@ -39,7 +39,7 @@ function update(state = DEFAULT_STATE, action) {
 					[action.detail.id]: action.detail
 				}
 			};
-		case 'visitor_update':
+    case 'visitor_update':
 			return {
 				...state,
 				visitor: {

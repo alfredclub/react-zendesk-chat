@@ -33,12 +33,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    zChat.init({
-      account_key: this.props.accountKey
-    });
-
-    this.setVisitorInfo();
-
     const events = [
       'account_status',
       'connection_update',
@@ -62,16 +56,6 @@ class App extends Component {
       visible: get('visible') || this.state.visible,
       theme: get('theme') || this.state.theme
     });
-  }
-
-  setVisitorInfo() {
-    if (this.props.visitor) {
-      const { name, email, phone } = this.props.visitor;
-
-      zChat.setVisitorInfo({
-        email, display_name: name, phone
-      });
-    }
   }
 
   handleOnChange() {
