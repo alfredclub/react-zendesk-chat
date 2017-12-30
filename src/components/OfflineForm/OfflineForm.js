@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import CardContainer from './../CardContainer';
 import MessageSvg from './../MessageSvg';
 import ActionButton from './../ActionButton';
@@ -20,16 +21,19 @@ class OfflineForm extends Component {
 
   send(event) {
     event.preventDefault();
-    zChat.sendOfflineMsg({
-      name: this.refs.name.value,
-      email: this.refs.email.value,
-      message: this.refs.message.value
-    }, (err) => {
-      if (err) return;
-      this.setState({
-        sent: true
-      });
-    });
+    zChat.sendOfflineMsg(
+      {
+        name: this.refs.name.value,
+        email: this.refs.email.value,
+        message: this.refs.message.value
+      },
+      err => {
+        if (err) return;
+        this.setState({
+          sent: true
+        });
+      }
+    );
   }
 
   sendAnother() {
@@ -42,7 +46,8 @@ class OfflineForm extends Component {
     if (this.state.sent) {
       return (
         <div key="sent" className="offline-sent">
-          Your message has been sent. We will get back to you as soon as possible.
+          Your message has been sent. We will get back to you as soon as
+          possible.
           <ActionButton
             addClass="button-resend"
             label="Send another"
@@ -50,8 +55,7 @@ class OfflineForm extends Component {
           />
         </div>
       );
-    }
-    else {
+    } else {
       return (
         <form key="not-sent" className="offline-form">
           <div className="content">
@@ -82,12 +86,17 @@ class OfflineForm extends Component {
 
   render() {
     return (
-      <CardContainer addClass="offline-card" contentAddClass={this.state.sent ? 'sent' : ''} icon={ <MessageSvg /> }>
+      <CardContainer
+        addClass="offline-card"
+        contentAddClass={this.state.sent ? 'sent' : ''}
+        icon={<MessageSvg />}
+      >
         <ReactCSSTransitionGroup
           className="offline-container"
           transitionName={this.state.sent ? 'offline-shrink' : 'offline-grow'}
           transitionEnterTimeout={250}
-          transitionLeaveTimeout={250}>
+          transitionLeaveTimeout={250}
+        >
           {this.renderChild()}
         </ReactCSSTransitionGroup>
       </CardContainer>
@@ -95,11 +104,10 @@ class OfflineForm extends Component {
   }
 }
 
-
 OfflineForm.displayName = 'OfflineForm';
 OfflineForm.propTypes = {
-  onClick: React.PropTypes.func,
-  addClass: React.PropTypes.string
+  onClick: PropTypes.func,
+  addClass: PropTypes.string
 };
 
 export default OfflineForm;

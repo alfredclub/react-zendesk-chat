@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import SendButton from './../SendButton';
 
 class Input extends Component {
@@ -17,57 +18,57 @@ class Input extends Component {
   }
 
   onDragOver(event) {
-    this.setState({dragover: true});
+    this.setState({ dragover: true });
     event.preventDefault();
 
     event.dataTransfer.dropEffect = 'copy';
   }
 
   onDrop(event) {
-    this.setState({dragover: false});
+    this.setState({ dragover: false });
     this.props.onFileUpload(event);
   }
 
   onDragLeave() {
-    this.setState({dragover: false});
+    this.setState({ dragover: false });
   }
 
   render() {
     const class_name = [
-        'input-container',
-        this.props.addClass,
-        this.state.dragover ? 'drag-drop-zone' : ''
-      ].join(' ');
+      'input-container',
+      this.props.addClass,
+      this.state.dragover ? 'drag-drop-zone' : ''
+    ].join(' ');
 
     return (
-      <div className={class_name}
+      <div
+        className={class_name}
         onDrop={this.onDrop}
         onDragOver={this.onDragOver}
-        onDragLeave={this.onDragLeave} >
-        <form
-          className="input-form"
-          onSubmit={this.props.onSubmit}>
-            <input
-              className="input"
-              ref="input"
-              placeholder="Enter message here"
-              onChange={this.props.onChange}
-              onFocus={this.props.onFocus} />
-            <SendButton onClick={this.props.onSubmit} />
+        onDragLeave={this.onDragLeave}
+      >
+        <form className="input-form" onSubmit={this.props.onSubmit}>
+          <input
+            className="input"
+            ref="input"
+            placeholder="Enter message here"
+            onChange={this.props.onChange}
+            onFocus={this.props.onFocus}
+          />
+          <SendButton onClick={this.props.onSubmit} />
         </form>
       </div>
     );
   }
 }
 
-
 Input.displayName = 'Input';
 Input.propTypes = {
-  addClass: React.PropTypes.string,
-  onSubmit: React.PropTypes.func,
-  onChange: React.PropTypes.func,
-  onFocus: React.PropTypes.func,
-  onFileUpload: React.PropTypes.func
+  addClass: PropTypes.string,
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  onFileUpload: PropTypes.func
 };
 
 export default Input;

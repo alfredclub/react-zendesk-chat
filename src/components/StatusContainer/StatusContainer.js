@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class StatusContainer extends Component {
   constructor(props) {
@@ -9,20 +10,20 @@ class StatusContainer extends Component {
   }
 
   renderIcon() {
-    const isString = typeof(this.props.icon) === 'string';
-    return (
-      <div className="card-icon">
-        {!isString && this.props.icon}
-      </div>
-    );
+    const isString = typeof this.props.icon === 'string';
+    return <div className="card-icon">{!isString && this.props.icon}</div>;
   }
 
   getStatusText(status) {
     switch (status) {
-      case 'online': return 'We\'re online!';
-      case 'offline': return 'Leave us a message';
-      case 'away': return 'We\'re away!';
-      default: return 'Connecting...';
+      case 'online':
+        return 'We\'re online!';
+      case 'offline':
+        return 'Leave us a message';
+      case 'away':
+        return 'We\'re away!';
+      default:
+        return 'Connecting...';
     }
   }
 
@@ -40,7 +41,7 @@ class StatusContainer extends Component {
 
 StatusContainer.displayName = 'StatusContainer';
 StatusContainer.propTypes = {
-  accountStatus: React.PropTypes.string,
-  minimizeOnClick: React.PropTypes.func
-}
+  accountStatus: PropTypes.string,
+  minimizeOnClick: PropTypes.func
+};
 export default StatusContainer;

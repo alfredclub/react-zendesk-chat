@@ -1,11 +1,16 @@
 'use strict';
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ChatImage extends Component {
   render() {
     return (
-      <a href={this.props.message.attachment.url} target="_blank" className="chat-img-container">
+      <a
+        href={this.props.message.attachment.url}
+        target="_blank"
+        className="chat-img-container"
+      >
         <div
           className="chat-img"
           style={{
@@ -17,10 +22,9 @@ class ChatImage extends Component {
   }
 }
 
-
 ChatImage.displayName = 'ChatImage';
 ChatImage.propTypes = {
-  message: React.PropTypes.object
+  message: PropTypes.object
 };
 ChatImage.defaultProps = {
   message: {

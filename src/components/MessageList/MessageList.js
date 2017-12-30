@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import ChatMessage from './../ChatMessage';
 import SystemMessage from './../SystemMessage';
 import Avatar from './../Avatar';
@@ -46,27 +47,23 @@ class MessageList extends Component {
       case 'chat.memberleave':
       case 'chat.wait_queue':
       case 'typing':
-        return (
-          <SystemMessage
-            key={msg.type + msg.timestamp}
-            message={msg}
-          />
-        );
+        return <SystemMessage key={msg.type + msg.timestamp} message={msg} />;
       case 'chat.rating':
-        return <ChatRating key={msg.type + msg.timestamp}/>;
+        return <ChatRating key={msg.type + msg.timestamp} />;
       case 'offline':
         return <OfflineForm key="offline" />;
       case 'prechat':
         return <PrechatForm key="prechat" />;
       default:
-        return <div key={+new Date()}>Unhandled message: {JSON.stringify(msg)}</div>
+        return (
+          <div key={+new Date()}>Unhandled message: {JSON.stringify(msg)}</div>
+        );
     }
   }
 
   renderTyping(agents) {
-    const agent_names = Object.values(agents)
-      .filter((agent) => agent.typing);
-    return agent_names.map((agent) => {
+    const agent_names = Object.values(agents).filter(agent => agent.typing);
+    return agent_names.map(agent => {
       return (
         <div key={agent.nick} className="chat-msg-container agent">
           <div className="avatar-container">
@@ -97,25 +94,33 @@ class MessageList extends Component {
         nick: 'agent:offline',
         timestamp: +new Date(),
         member_type: 'agent',
-        msg: 'Sorry, we are offline at the moment. Please leave us your contact information and we will get back to you soon!'
+        msg:
+          'Sorry, we are offline at the moment. Please leave us your contact information and we will get back to you soon!'
       });
       allMessages.push({
         type: 'offline'
       });
     } else if (!this.props.isChatting) {
-      allMessages = [{
-        type: 'prechat'
-      }];
+      allMessages = [
+        {
+          type: 'prechat'
+        }
+      ];
     }
 
     let prev = null;
 
-    return allMessages.map((message) => {
+    return allMessages.map(message => {
       let addClass = '',
-          currentNick = message.nick,
-          prevNick = prev && prev.nick;
+        currentNick = message.nick,
+        prevNick = prev && prev.nick;
 
-      if (prev && prev.type === message.type && currentNick && currentNick === prevNick)
+      if (
+        prev &&
+        prev.type === message.type &&
+        currentNick &&
+        currentNick === prevNick
+      )
         addClass = 'sibling';
 
       prev = message;
@@ -136,10 +141,10 @@ class MessageList extends Component {
 
 MessageList.displayName = 'MessageList';
 MessageList.propTypes = {
-  messages: React.PropTypes.array,
-  agents: React.PropTypes.object,
-  isOffline: React.PropTypes.bool,
-  isChatting: React.PropTypes.bool
+  messages: PropTypes.array,
+  agents: PropTypes.object,
+  isOffline: PropTypes.bool,
+  isChatting: PropTypes.bool
 };
 MessageList.defaultProps = {
   messages: [],

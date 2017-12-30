@@ -1,7 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Avatar from './../Avatar';
 import ChatMedia from './../ChatMedia';
 import { log } from './../../utils';
@@ -22,8 +23,8 @@ class ChatMessage extends Component {
 
   optionOnChange(e) {
     const index = e.currentTarget.value,
-          msg = this.props.message.options[index];
-    zChat.sendChatMsg(msg, (err) => {
+      msg = this.props.message.options[index];
+    zChat.sendChatMsg(msg, err => {
       if (err) {
         log('Error occured >>>', err);
         return;
@@ -43,13 +44,21 @@ class ChatMessage extends Component {
 
     return (
       <div>
-      {
-        options.map((option, i) => {
-          return <div><input type="radio" name="option" value={i} onChange={this.optionOnChange}/> {option}</div>;
-        })
-      }
+        {options.map((option, i) => {
+          return (
+            <div>
+              <input
+                type="radio"
+                name="option"
+                value={i}
+                onChange={this.optionOnChange}
+              />{' '}
+              {option}
+            </div>
+          );
+        })}
       </div>
-    )
+    );
   }
 
   renderMessagePart(msg) {
@@ -68,7 +77,11 @@ class ChatMessage extends Component {
 
   render() {
     return (
-      <div className={`chat-msg-container ${this.getClassName(this.props.message)} ${this.props.addClass}`}>
+      <div
+        className={`chat-msg-container ${this.getClassName(
+          this.props.message
+        )} ${this.props.addClass}`}
+      >
         <div className="avatar-container">
           <Avatar entity={this.props.agent} />
         </div>
@@ -82,14 +95,14 @@ class ChatMessage extends Component {
 
 ChatMessage.displayName = 'ChatMessage';
 ChatMessage.propTypes = {
-  message: React.PropTypes.object,
-  agent: React.PropTypes.object,
-  addClass: React.PropTypes.string
+  message: PropTypes.object,
+  agent: PropTypes.object,
+  addClass: PropTypes.string
 };
 ChatMessage.defaultProps = {
   message: {
     msg: ''
   }
-}
+};
 
 export default connect()(ChatMessage);

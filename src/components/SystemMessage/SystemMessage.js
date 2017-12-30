@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class SystemMessage extends Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class SystemMessage extends Component {
       case 'chat.memberleave':
         return `${this.props.message.display_name} has left the chat`;
       case 'chat.wait_queue':
-        return `Please wait. There are currently ${msg.wait_queue} people(s) in the queue.`;
+        return `Please wait. There are currently ${
+          msg.wait_queue
+        } people(s) in the queue.`;
       default:
         return JSON.stringify(msg);
     }
@@ -23,7 +26,9 @@ class SystemMessage extends Component {
   render() {
     return (
       <div className="system-msg-container">
-        <span className="system-msg">{this.getMessageByType(this.props.message)}</span>
+        <span className="system-msg">
+          {this.getMessageByType(this.props.message)}
+        </span>
       </div>
     );
   }
@@ -31,7 +36,7 @@ class SystemMessage extends Component {
 
 SystemMessage.displayName = 'SystemMessage';
 SystemMessage.propTypes = {
-  message: React.PropTypes.object
+  message: PropTypes.object
 };
 SystemMessage.defaultProps = {
   message: {
