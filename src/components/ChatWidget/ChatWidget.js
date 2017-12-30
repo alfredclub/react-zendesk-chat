@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import StatusContainer from './../StatusContainer';
 import MessageList from './../MessageList';
 import ChatButton from './../ChatButton';
@@ -42,8 +42,14 @@ class App extends Component {
       'error'
     ];
 
-    events.forEach((evt) => {
-      zChat.on(evt, (data) => {
+    zChat.init({
+      account_key: this.props.accountKey
+    });
+
+    this.setVisitorInfo();
+
+    events.forEach(evt => {
+      zChat.on(evt, data => {
         this.props.dispatch({
           type: evt,
           detail: data
@@ -55,6 +61,18 @@ class App extends Component {
       visible: get('visible') || this.state.visible,
       theme: get('theme') || this.state.theme
     });
+  }
+
+  setVisitorInfo() {
+    if (this.props.visitor) {
+      const { name, email, phone } = this.props.visitor;
+
+      zChat.setVisitorInfo({
+        email,
+        display_name: name,
+        phone
+      });
+    }
   }
 
   handleOnChange() {
@@ -86,7 +104,7 @@ class App extends Component {
     // Immediately stop typing
     this.stopTyping.flush();
 
-    zChat.sendChatMsg(msg, (err) => {
+    zChat.sendChatMsg(msg, err => {
       if (err) {
         log('Error occured >>>', err);
         return;
@@ -118,9 +136,9 @@ class App extends Component {
       name: file.name,
       size: file.size,
       url: window.URL.createObjectURL(file)
-    }
+    };
 
-    zChat.sendFile(file, (err) => {
+    zChat.sendFile(file, err => {
       if (err) {
         log('Error occured >>>', err);
         return;
@@ -165,7 +183,7 @@ class App extends Component {
     }
 
     if (agents && Object.keys(agents).length) {
-      Object.values(agents).forEach((agent) => {
+      Object.values(agents).forEach(agent => {
         if (!agent.nick) return;
 
         entities[agent.nick] = {
@@ -179,14 +197,16 @@ class App extends Component {
       entities['agent:offline'] = {
         type: 'agent',
         nick: 'agent:offline'
-      }
+      };
     }
 
     return entities;
   }
 
   isOffline() {
-    return this.props.data.account_status === 'offline' && !this.isChatEnabled();
+    return (
+      this.props.data.account_status === 'offline' && !this.isChatEnabled()
+    );
   }
 
   isChatEnabled() {
@@ -194,7 +214,10 @@ class App extends Component {
   }
 
   render() {
-    const entities = this.mapToEntities(this.props.data.visitor, this.props.data.agents);
+    const entities = this.mapToEntities(
+      this.props.data.visitor,
+      this.props.data.agents
+    );
     const isOffline = this.isOffline();
 
     return (
@@ -213,8 +236,14 @@ class App extends Component {
             entities={entities}
           />
 
-          <div className={`spinner-container ${this.state.visible && this.props.data.connection !== 'connected' ? 'visible' : ''}`}>
-            <div className="spinner"></div>
+          <div
+            className={`spinner-container ${
+              this.state.visible && this.props.data.connection !== 'connected'
+                ? 'visible'
+                : ''
+            }`}
+          >
+            <div className="spinner" />
           </div>
 
           <Input
@@ -227,7 +256,10 @@ class App extends Component {
           />
         </div>
 
-        <ChatButton addClass={this.getVisibilityClass()} onClick={this.chatButtonOnClick} />
+        <ChatButton
+          addClass={this.getVisibilityClass()}
+          onClick={this.chatButtonOnClick}
+        />
       </div>
     );
   }
@@ -239,11 +271,9 @@ const mapStateToProps = (state, props) => {
   return {
     ...props,
     data: state
-  }
+  };
 };
 
-const WrappedApp = connect(
-  mapStateToProps
-)(App);
+const WrappedApp = connect(mapStateToProps)(App);
 
 export default WrappedApp;
