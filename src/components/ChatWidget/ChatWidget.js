@@ -191,7 +191,7 @@ class App extends Component {
 
   chatButtonOnClick() {
     this.setVisible(true);
-    EventsSystem.emit('onShow');
+    EventsSystem.emit('display');
   }
 
   setVisible(visible) {
