@@ -7,6 +7,17 @@ import Input from './../Input';
 import { log, get, set } from './../../utils';
 import { debounce } from 'lodash';
 import zChat from './../../../vendor/web-sdk';
+import { EventsSystem } from './../../utils/events-system';
+
+const events = [
+  'account_status',
+  'connection_update',
+  'department_update',
+  'visitor_update',
+  'agent_update',
+  'chat',
+  'error'
+];
 
 class App extends Component {
   constructor(props) {
@@ -29,19 +40,10 @@ class App extends Component {
     this.stopTyping = debounce(this.stopTyping.bind(this), 1000);
     this.setVisible = this.setVisible.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
+    this.displayMessage = this.displayMessage.bind(this);
   }
 
   componentDidMount() {
-    const events = [
-      'account_status',
-      'connection_update',
-      'department_update',
-      'visitor_update',
-      'agent_update',
-      'chat',
-      'error'
-    ];
-
     zChat.init({
       account_key: this.props.accountKey
     });
@@ -61,6 +63,23 @@ class App extends Component {
       visible: get('visible') || this.state.visible,
       theme: get('theme') || this.state.theme
     });
+
+    EventsSystem.subscribe('display', this.setVisible.bind(this, true))
+      .subscribe('displayNewMessage', this.displayMessage);
+  }
+
+  componentWillUnmount() {
+    events.forEach(evt => {
+      zChat.un(evt, data => {
+        this.props.dispatch({
+          type: evt,
+          detail: data
+        });
+      });
+    });
+
+    EventsSystem.unsubscribe('display', this.setVisible.bind(this, true))
+      .unsubscribe('displayNewMessage', this.displayMessage);
   }
 
   setVisitorInfo() {
@@ -73,6 +92,13 @@ class App extends Component {
         phone
       });
     }
+  }
+
+  displayMessage(message) {
+    this.refs.input.getRawInput().value = message;
+    this.setVisible(true);
+    zChat.sendTyping(true);
+    this.setState({ typing: true });
   }
 
   handleOnChange() {
@@ -160,10 +186,12 @@ class App extends Component {
 
   minimizeOnClick() {
     this.setVisible(false);
+    EventsSystem.emit('onHide');
   }
 
   chatButtonOnClick() {
     this.setVisible(true);
+    EventsSystem.emit('onShow');
   }
 
   setVisible(visible) {
