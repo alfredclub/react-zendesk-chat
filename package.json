@@ -14,9 +14,9 @@
     "start": "node server.js --env=dev",
     "lib": "babel src --out-dir lib --copy-files"
   },
-  "repository": "https://github.com/vyzaldysanchez/react-zendesk-chat",
+  "repository": "https://github.com/alfredclub/react-zendesk-chat",
   "keywords": ["react", "javascript", "es6", "zendesk", "chat"],
-  "author": "Vyzaldy Andres Sanchez",
+  "author": "Alfred Club",
   "engineStrict": true,
   "engines": {
     "node": ">=6.4.0"
