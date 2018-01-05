@@ -12,6 +12,7 @@ $preview-spacing: 32px 30px;
     border-top: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
     text-overflow: ellipsis;
+    color: lighten($color: $black, $amount: 70);
 
     &, & * {
       cursor: pointer;
@@ -43,7 +44,7 @@ $preview-spacing: 32px 30px;
       background-color: $background-color;
       border-top: 1px solid darken($color: $border-color, $amount: 5);
 
-      .preview-text {
+      &, .preview-text {
         color: lighten($color: $black, $amount: 35);
       }
     }
