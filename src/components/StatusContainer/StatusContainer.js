@@ -16,6 +16,8 @@ class StatusContainer extends Component {
 
   getStatusText(status) {
     switch (status) {
+      case 'conversations':
+        return 'Conversations!';
       case 'online':
         return 'We\'re online!';
       case 'offline':

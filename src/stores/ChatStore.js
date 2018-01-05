@@ -10,7 +10,8 @@ const DEFAULT_STATE = {
 	agents: {},
 	chats: SortedMap(),
 	last_timestamp: 0,
-	is_chatting: false
+  is_chatting: false,
+  history: { loaded: false, chats: [] }
 };
 
 // IMPT: Need to return on every case
@@ -131,7 +132,14 @@ function update(state = DEFAULT_STATE, action) {
 					};
 				default:
 					return state;
-			}
+      }
+    case 'history_loaded':
+      const { loaded, chats } = action.detail;
+
+      return {
+        ...state,
+        history: { loaded, chats }
+      };
 		default:
 			log('unhandled action', action);
 			return state;

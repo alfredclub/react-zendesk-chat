@@ -1,0 +1,51 @@
+$black: #000000;
+$background-color: #f7f8fa;
+$border-color: #f3f4f5;
+
+$preview-spacing: 32px 30px;
+
+.history {
+  overflow-y: scroll;
+
+  .preview {
+    padding: $preview-spacing;
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    text-overflow: ellipsis;
+
+    &, & * {
+      cursor: pointer;
+    }
+
+    > * {
+      display: inline;
+    }
+
+    .preview-text {
+      white-space: pre;
+      color: lighten($color: $black, $amount: 70);
+
+      .chat-msg-container {
+        display: inline;
+
+        .avatar-container {
+          position: relative;
+          vertical-align: middle;
+        }
+      }
+
+      > span {
+        margin-left: 10px;
+      }
+    }
+
+    &:hover {
+      background-color: $background-color;
+      border-top: 1px solid darken($color: $border-color, $amount: 5);
+
+      .preview-text {
+        color: lighten($color: $black, $amount: 35);
+      }
+    }
+  }
+}

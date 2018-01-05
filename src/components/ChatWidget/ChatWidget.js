@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import StatusContainer from './../StatusContainer';
 import MessageList from './../MessageList';
 import ChatButton from './../ChatButton';
+import ChatHistory from './../ChatHistory';
 import Input from './../Input';
 import { log, get, set } from './../../utils';
 import { debounce } from 'lodash';
@@ -26,7 +27,8 @@ class App extends Component {
     this.state = {
       theme: this.props.theme,
       typing: false,
-      visible: false
+      visible: false,
+      displayingHistory: true
     };
 
     this.timer = null;
@@ -41,6 +43,7 @@ class App extends Component {
     this.setVisible = this.setVisible.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.displayMessage = this.displayMessage.bind(this);
+    this.loadHistory = this.loadHistory.bind(this);
   }
 
   componentDidMount() {
@@ -65,7 +68,8 @@ class App extends Component {
     });
 
     EventsSystem.subscribe('display', this.setVisible.bind(this, true))
-      .subscribe('displayNewMessage', this.displayMessage);
+      .subscribe('displayNewMessage', this.displayMessage)
+      .subscribe('loadHistory', this.loadHistory);
   }
 
   componentWillUnmount() {
@@ -79,7 +83,8 @@ class App extends Component {
     });
 
     EventsSystem.unsubscribe('display', this.setVisible.bind(this, true))
-      .unsubscribe('displayNewMessage', this.displayMessage);
+      .unsubscribe('displayNewMessage', this.displayMessage)
+      .unsubscribe('loadHistory', this.loadHistory);
   }
 
   setVisitorInfo() {
@@ -99,6 +104,13 @@ class App extends Component {
     this.setVisible(true);
     zChat.sendTyping(true);
     this.setState({ typing: true });
+  }
+
+  loadHistory(chats) {
+    this.props.dispatch({
+      type: 'history_loaded',
+      detail: { loaded: true, chats }
+    });
   }
 
   handleOnChange() {
@@ -241,28 +253,39 @@ class App extends Component {
     return this.props.data.is_chatting || !!this.props.visitor;
   }
 
+  getContainerText() {
+    if (this.state.displayingHistory) {
+      return 'conversations';
+    }
+
+    return this.props.data.account_status;
+  }
+
   render() {
     const entities = this.mapToEntities(
       this.props.data.visitor,
       this.props.data.agents
     );
     const isOffline = this.isOffline();
+    const { displayingHistory } = this.state;
 
     return (
       <div className="index">
         <div className={`widget-container normal ${this.getVisibilityClass()}`}>
           <StatusContainer
-            accountStatus={this.props.data.account_status}
+            accountStatus={this.getContainerText()}
             minimizeOnClick={this.minimizeOnClick}
           />
 
-          <MessageList
+          <ChatHistory  />
+
+          {!displayingHistory && <MessageList
             isChatting={this.isChatEnabled()}
             isOffline={isOffline}
             messages={this.props.data && this.props.data.chats.toArray()}
             agents={this.props.data.agents}
             entities={entities}
-          />
+          />}
 
           <div
             className={`spinner-container ${
@@ -274,14 +297,14 @@ class App extends Component {
             <div className="spinner" />
           </div>
 
-          <Input
+          {!displayingHistory && <Input
             addClass={this.isChatEnabled() ? 'visible' : ''}
             ref="input"
             onSubmit={this.handleOnSubmit}
             onChange={this.handleOnChange}
             onFocus={this.inputOnFocus}
             onFileUpload={this.handleFileUpload}
-          />
+          />}
         </div>
 
         <ChatButton
