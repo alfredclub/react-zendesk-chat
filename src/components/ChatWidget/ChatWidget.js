@@ -4,6 +4,7 @@ import StatusContainer from './../StatusContainer';
 import MessageList from './../MessageList';
 import ChatButton from './../ChatButton';
 import ChatHistory from './../ChatHistory';
+import InitChatButton from './../InitChatButton';
 import Input from './../Input';
 import { log, get, set } from './../../utils';
 import { debounce } from 'lodash';
@@ -305,6 +306,8 @@ class App extends Component {
             onFocus={this.inputOnFocus}
             onFileUpload={this.handleFileUpload}
           />}
+
+          {displayingHistory && <InitChatButton />}
         </div>
 
         <ChatButton

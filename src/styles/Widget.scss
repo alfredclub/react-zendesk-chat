@@ -1,3 +1,5 @@
+$black: #000000;
+$white: #FFFFFF;
 $theme-color: #37b8af;
 $chat-responsive-width: 664px;
 
@@ -616,4 +618,5 @@ svg {
   }
 }
 
-@import './_history.scss';
+@import './history.scss';
+@import './init-chat.scss';
