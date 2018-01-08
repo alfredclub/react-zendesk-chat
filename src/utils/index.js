@@ -3,11 +3,11 @@ export function log(...args) {
 }
 
 export function isAgent(nick){
-	return nick.startsWith('agent:');
+	return nick && nick.startsWith('agent:');
 }
 
 export function isTrigger(nick) {
-	return nick.startsWith('agent:trigger');
+	return nick && nick.startsWith('agent:trigger');
 }
 
 export * from'./PersistentStorage';

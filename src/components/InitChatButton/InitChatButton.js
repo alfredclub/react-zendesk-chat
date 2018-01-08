@@ -7,9 +7,11 @@ class InitChatButton extends Component {
   }
 
   render() {
+    const { onClick } = this.props;
+
     return (
       <div className="init-chat-container">
-        <button className="init-chat-btn">New Conversation</button>
+        <button className="init-chat-btn" onClick={onClick}>New Conversation</button>
       </div>
     );
   }

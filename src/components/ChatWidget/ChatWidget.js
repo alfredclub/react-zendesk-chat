@@ -45,6 +45,7 @@ class App extends Component {
     this.handleFileUpload = this.handleFileUpload.bind(this);
     this.displayMessage = this.displayMessage.bind(this);
     this.loadHistory = this.loadHistory.bind(this);
+    this.hideHistory = this.hideHistory.bind(this);
   }
 
   componentDidMount() {
@@ -262,6 +263,12 @@ class App extends Component {
     return this.props.data.account_status;
   }
 
+  hideHistory() {
+    this.setState({
+      displayingHistory: false
+    });
+  }
+
   render() {
     const entities = this.mapToEntities(
       this.props.data.visitor,
@@ -278,7 +285,7 @@ class App extends Component {
             minimizeOnClick={this.minimizeOnClick}
           />
 
-          {displayingHistory && <ChatHistory  />}
+          {displayingHistory && <ChatHistory requestToken={this.props.requestToken} onHistoryLoaded={this.hideHistory} />}
 
           {!displayingHistory && <MessageList
             isChatting={this.isChatEnabled()}
@@ -307,7 +314,7 @@ class App extends Component {
             onFileUpload={this.handleFileUpload}
           />}
 
-          {displayingHistory && <InitChatButton />}
+          {displayingHistory && <InitChatButton onClick={this.hideHistory} />}
         </div>
 
         <ChatButton
