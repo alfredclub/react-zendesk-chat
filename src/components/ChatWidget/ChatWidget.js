@@ -77,7 +77,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data.connection === 'connected') {
+    if (nextProps.data.connection === 'connected' && this.state.loading) {
       this.setState({ loading: false });
     }
   }
@@ -284,8 +284,8 @@ class App extends Component {
   }
 
   startHistoryLoad() {
+    this.setState({ loading: true });
     this.props.dispatch({ type: 'clean_chats' });
-    this.setState({ loading: true })
   }
 
   hideHistory() {
