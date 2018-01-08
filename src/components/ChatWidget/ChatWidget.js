@@ -281,6 +281,13 @@ class App extends Component {
   startChat() {
     this.props.dispatch({ type: 'clean_chats' });
     this.hideHistory();
+
+    zChat.getChatLog().forEach((detail) => {
+      this.props.dispatch({
+        type: 'chat',
+        detail
+      });
+    });
   }
 
   startHistoryLoad() {
