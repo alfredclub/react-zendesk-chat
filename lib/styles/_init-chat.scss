@@ -1,0 +1,33 @@
+$btn-shadow: #acabab;
+$btn-background: #7f90a5;
+
+.init-chat-container {
+  position: absolute;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(0deg, $white, hsla(0,0%,100%,0));
+  bottom: 0;
+  width: 100%;
+  height: 90px;
+  pointer-events: none;
+
+  .init-chat-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: $btn-background;
+    color: $white;
+    font-family: DNLTL;
+    font-size: 14px;
+    font-weight: 800;
+    pointer-events: auto;
+
+    &:hover {
+      box-shadow: 0px 8px 40px 0px $btn-shadow;
+    }
+  }
+}
