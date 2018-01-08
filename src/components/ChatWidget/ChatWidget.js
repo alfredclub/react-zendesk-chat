@@ -278,7 +278,7 @@ class App extends Component {
             minimizeOnClick={this.minimizeOnClick}
           />
 
-          <ChatHistory  />
+          {displayingHistory && <ChatHistory  />}
 
           {!displayingHistory && <MessageList
             isChatting={this.isChatEnabled()}
