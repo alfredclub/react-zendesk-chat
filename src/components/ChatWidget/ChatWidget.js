@@ -271,6 +271,16 @@ class App extends Component {
     return this.props.data.account_status;
   }
 
+  startChat() {
+    this.props.dispatch({ type: 'clean_chats' });
+    this.hideHistory();
+  }
+
+  startHistoryLoad() {
+    this.props.dispatch({ type: 'clean_chats' });
+    this.setState({ loading: true })
+  }
+
   hideHistory() {
     this.setState({
       loading: false,
@@ -295,7 +305,7 @@ class App extends Component {
           />
 
           {displayingHistory && <ChatHistory requestToken={this.props.requestToken}
-            onHistoryLoad={() => this.setState({ loading: true })} onHistoryLoaded={this.hideHistory} />}
+            onHistoryLoad={() => this.startHistoryLoad()} onHistoryLoaded={this.hideHistory} />}
 
           {!displayingHistory && <MessageList
             isChatting={this.isChatEnabled()}
@@ -324,7 +334,7 @@ class App extends Component {
             onFileUpload={this.handleFileUpload}
           />}
 
-          {displayingHistory && <InitChatButton onClick={this.hideHistory} />}
+          {displayingHistory && <InitChatButton onClick={() => this.startChat()} />}
         </div>
 
         <ChatButton

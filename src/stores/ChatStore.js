@@ -140,6 +140,11 @@ function update(state = DEFAULT_STATE, action) {
         ...state,
         history: { loaded, chats }
       };
+    case 'clean_chats':
+      return {
+        ...state,
+        chats: SortedMap()
+      };
 		default:
 			log('unhandled action', action);
 			return state;
