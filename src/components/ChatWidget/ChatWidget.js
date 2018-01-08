@@ -38,6 +38,7 @@ class App extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.getVisibilityClass = this.getVisibilityClass.bind(this);
     this.minimizeOnClick = this.minimizeOnClick.bind(this);
+    this.returnToConversationsList = this.returnToConversationsList.bind(this);
     this.chatButtonOnClick = this.chatButtonOnClick.bind(this);
     this.mapToEntities = this.mapToEntities.bind(this);
     this.isOffline = this.isOffline.bind(this);
@@ -211,6 +212,12 @@ class App extends Component {
     EventsSystem.emit('onHide');
   }
 
+  returnToConversationsList() {
+    this.setState({
+      displayingHistory: true
+    });
+  }
+
   chatButtonOnClick() {
     this.setVisible(true);
     EventsSystem.emit('display');
@@ -301,6 +308,7 @@ class App extends Component {
         <div className={`widget-container normal ${this.getVisibilityClass()}`}>
           <StatusContainer
             accountStatus={this.getContainerText()}
+            onBackClick={this.returnToConversationsList}
             minimizeOnClick={this.minimizeOnClick}
           />
 

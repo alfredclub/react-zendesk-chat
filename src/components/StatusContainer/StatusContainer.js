@@ -14,8 +14,8 @@ class StatusContainer extends Component {
     return <div className="card-icon">{!isString && this.props.icon}</div>;
   }
 
-  isDisplayingHistory() {
-    return this.props.accountStatus === 'conversations';
+  isDisplayingHistoryChats() {
+    return this.props.accountStatus !== 'conversations';
   }
 
   getStatusText(status) {
@@ -36,9 +36,9 @@ class StatusContainer extends Component {
   render() {
     return (
       <div className="status-container">
-        {this.isDisplayingHistory() &&
-        <div className="back-button-container">
-          <div className="back-button"></div>
+        {this.isDisplayingHistoryChats() &&
+        <div className="back-arrow-container" onClick={this.props.onBackClick}>
+          <div className="back-arrow"></div>
         </div>}
 
         {this.getStatusText(this.props.accountStatus)}
