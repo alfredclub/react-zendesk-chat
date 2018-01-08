@@ -29,7 +29,8 @@ class App extends Component {
       theme: this.props.theme,
       typing: false,
       visible: false,
-      displayingHistory: true
+      displayingHistory: true,
+      loading: true
     };
 
     this.timer = null;
@@ -74,6 +75,12 @@ class App extends Component {
       .subscribe('loadHistory', this.loadHistory);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.connection === 'connected') {
+      this.setState({ loading: false });
+    }
+  }
+
   componentWillUnmount() {
     events.forEach(evt => {
       zChat.un(evt, data => {
@@ -104,6 +111,7 @@ class App extends Component {
   displayMessage(message) {
     this.refs.input.getRawInput().value = message;
     this.setVisible(true);
+    this.setState({ loading: false });
     zChat.sendTyping(true);
     this.setState({ typing: true });
   }
@@ -265,6 +273,7 @@ class App extends Component {
 
   hideHistory() {
     this.setState({
+      loading: false,
       displayingHistory: false
     });
   }
@@ -285,7 +294,8 @@ class App extends Component {
             minimizeOnClick={this.minimizeOnClick}
           />
 
-          {displayingHistory && <ChatHistory requestToken={this.props.requestToken} onHistoryLoaded={this.hideHistory} />}
+          {displayingHistory && <ChatHistory requestToken={this.props.requestToken}
+            onHistoryLoad={() => this.setState({ loading: true })} onHistoryLoaded={this.hideHistory} />}
 
           {!displayingHistory && <MessageList
             isChatting={this.isChatEnabled()}
@@ -297,7 +307,7 @@ class App extends Component {
 
           <div
             className={`spinner-container ${
-              this.state.visible && this.props.data.connection !== 'connected'
+              this.state.visible && (this.props.data.connection !== 'connected' || this.state.loading)
                 ? 'visible'
                 : ''
             }`}

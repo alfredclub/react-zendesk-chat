@@ -30,6 +30,8 @@ class ChatHistory extends Component {
   }
 
   handlePreviewClick(chat) {
+    this.props.onHistoryLoad();
+
     fetch(chat.url, {
       credentials: false,
       headers: {

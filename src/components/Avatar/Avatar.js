@@ -31,7 +31,7 @@ class Avatar extends Component {
       <div
         className="avatar"
         style={style}
-        title={entity ? entity.display_name : 'Agent'}
+        title={entity ? entity.display_name : ''}
       >
         {child}
       </div>
