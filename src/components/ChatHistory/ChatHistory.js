@@ -12,6 +12,7 @@ class ChatHistory extends Component {
       chatsLoaded: 0
     };
 
+    this.loadMessages = this.loadMessages.bind(this);
     this.handlePreviewClick = this.handlePreviewClick.bind(this);
   }
 
@@ -32,6 +33,12 @@ class ChatHistory extends Component {
   handlePreviewClick(chat) {
     this.props.onHistoryLoad();
 
+    const storedChat = this.props.historyChats[chat.id];
+
+    if (storedChat) {
+      this.loadMessages(storedChat);
+    }
+
     fetch(chat.url, {
       credentials: false,
       headers: {
@@ -41,31 +48,47 @@ class ChatHistory extends Component {
       }
     })
       .then(res => res.json())
-      .then((chat) => {
-        this.props.onHistoryLoaded();
+      .then(chat => {
+        this.props.dispatch({
+          type: 'history_chats',
+          detail: { id: chat.id, messages: chat }
+        });
 
-        chat.history.forEach((detail) => this.props.dispatch({
-            type: 'chat',
-            detail: {
-              ...detail,
-              nick: this.isAgentMsg(chat, detail.name) ?
-                `agent:${detail.name}` :
-                'visitor',
-              display_name: detail.name
-            }
-        }));
-      });
+        return chat;
+      })
+      .then(this.loadMessages);
   }
 
   isAgentMsg(chat, name) {
     return chat.agent_names.indexOf(name) > -1;
   }
 
+  loadMessages(chat) {
+    this.props.onHistoryLoaded();
+
+    chat.history.forEach(detail =>
+      this.props.dispatch({
+        type: 'chat',
+        detail: {
+          ...detail,
+          nick: this.isAgentMsg(chat, detail.name)
+            ? `agent:${detail.name}`
+            : 'visitor',
+          display_name: detail.name
+        }
+      })
+    );
+  }
+
   renderPreviews() {
     const { chats } = this.props.history;
 
     return chats.map((chat, index) => (
-      <div className="preview" key={`preview_${index}`} onClick={() => this.handlePreviewClick(chat)}>
+      <div
+        className="preview"
+        key={`preview_${index}`}
+        onClick={() => this.handlePreviewClick(chat)}
+      >
         <div className="preview-text">
           <div className="chat-msg-container visitor">
             <div className="avatar-container visitor">
@@ -80,17 +103,14 @@ class ChatHistory extends Component {
   }
 
   render() {
-    return (
-      <div className="history">
-        {this.renderPreviews()}
-      </div>
-    );
+    return <div className="history">{this.renderPreviews()}</div>;
   }
 }
 
-const mapStateToProps = ({ history, visitor }, props) => ({
+const mapStateToProps = ({ history, historyChats, visitor }, props) => ({
   ...props,
   history,
+  historyChats,
   visitor
 });
 

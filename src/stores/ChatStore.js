@@ -11,7 +11,8 @@ const DEFAULT_STATE = {
 	chats: SortedMap(),
 	last_timestamp: 0,
   is_chatting: false,
-  history: { loaded: false, chats: [] }
+  history: { loaded: false, chats: [] },
+  historyChats: {}
 };
 
 // IMPT: Need to return on every case
@@ -146,6 +147,14 @@ function update(state = DEFAULT_STATE, action) {
       return {
         ...state,
         chats: SortedMap()
+      };
+    case 'history_chats':
+      return {
+        ...state,
+        historyChats: {
+          ...state.historyChats,
+          [action.detail.id]: action.detail.messages
+        }
       };
 		default:
 			log('unhandled action', action);
