@@ -30,6 +30,7 @@ class App extends Component {
       typing: false,
       visible: false,
       displayingHistory: true,
+      displayHistoryMessages: false,
       loading: true
     };
 
@@ -215,7 +216,8 @@ class App extends Component {
 
   returnToConversationsList() {
     this.setState({
-      displayingHistory: true
+      displayingHistory: true,
+      displayHistoryMessages: false
     });
   }
 
@@ -282,7 +284,7 @@ class App extends Component {
   startChat() {
     return new Promise(resolve => {
       this.props.dispatch({ type: 'clean_chats' });
-      this.hideHistory().then(() => {
+      this.hideHistory(false).then(() => {
         zChat.getChatLog().forEach(detail => {
           this.props.dispatch({
             type: 'chat',
@@ -300,12 +302,13 @@ class App extends Component {
     this.props.dispatch({ type: 'clean_chats' });
   }
 
-  hideHistory() {
+  hideHistory(displayHistoryMessages) {
     return new Promise(resolve => {
       this.setState(
         {
           loading: false,
-          displayingHistory: false
+          displayingHistory: false,
+          displayHistoryMessages
         },
         resolve
       );
@@ -318,7 +321,7 @@ class App extends Component {
       this.props.data.agents
     );
     const isOffline = this.isOffline();
-    const { displayingHistory } = this.state;
+    const { displayingHistory, displayHistoryMessages } = this.state;
 
     return (
       <div className="index">
@@ -333,7 +336,7 @@ class App extends Component {
             <ChatHistory
               requestToken={this.props.requestToken}
               onHistoryLoad={() => this.startHistoryLoad()}
-              onHistoryLoaded={this.hideHistory}
+              onHistoryLoaded={() => this.hideHistory(true)}
             />
           )}
 
@@ -358,7 +361,7 @@ class App extends Component {
             <div className="spinner" />
           </div>
 
-          {!displayingHistory && (
+          {!displayingHistory && !displayHistoryMessages && (
             <Input
               addClass={this.isChatEnabled() ? 'visible' : ''}
               ref="input"
