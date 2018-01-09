@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 class StatusContainer extends Component {
   constructor(props) {
     super(props);
+
     this.getStatusText = this.getStatusText.bind(this);
   }
 
@@ -14,7 +15,7 @@ class StatusContainer extends Component {
     return <div className="card-icon">{!isString && this.props.icon}</div>;
   }
 
-  isDisplayingHistoryChats() {
+  isDisplayingChatContent() {
     return this.props.accountStatus !== 'conversations';
   }
 
@@ -22,6 +23,8 @@ class StatusContainer extends Component {
     switch (status) {
       case 'conversations':
         return 'Conversations!';
+      case 'conversation_history':
+        return 'Conversation History!';
       case 'online':
         return 'We\'re online!';
       case 'offline':
@@ -36,10 +39,11 @@ class StatusContainer extends Component {
   render() {
     return (
       <div className="status-container">
-        {this.isDisplayingHistoryChats() &&
-        <div className="back-arrow-container" onClick={this.props.onBackClick}>
-          <div className="back-arrow"></div>
-        </div>}
+        {this.isDisplayingChatContent() && (
+          <div className="back-arrow-container" onClick={this.props.onBackClick}>
+            <div className="back-arrow" />
+          </div>
+        )}
 
         {this.getStatusText(this.props.accountStatus)}
 

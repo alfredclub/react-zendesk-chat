@@ -274,8 +274,14 @@ class App extends Component {
   }
 
   getContainerText() {
-    if (this.state.displayingHistory) {
+    const { displayingHistory, displayHistoryMessages } = this.state;
+
+    if (displayingHistory) {
       return 'conversations';
+    }
+
+    if (displayHistoryMessages) {
+      return 'conversation_history';
     }
 
     return this.props.data.account_status;
