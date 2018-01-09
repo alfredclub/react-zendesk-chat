@@ -110,11 +110,12 @@ class App extends Component {
   }
 
   displayMessage(message) {
-    this.refs.input.getRawInput().value = message;
-    this.setVisible(true);
-    this.setState({ loading: false });
-    zChat.sendTyping(true);
-    this.setState({ typing: true });
+    this.startChat().then(() => {
+      this.setVisible(true);
+      this.refs.input.getRawInput().value = message;
+      zChat.sendTyping(true);
+      this.setState({ typing: true });
+    });
   }
 
   loadHistory(chats) {
@@ -279,13 +280,17 @@ class App extends Component {
   }
 
   startChat() {
-    this.props.dispatch({ type: 'clean_chats' });
-    this.hideHistory();
+    return new Promise(resolve => {
+      this.props.dispatch({ type: 'clean_chats' });
+      this.hideHistory().then(() => {
+        zChat.getChatLog().forEach(detail => {
+          this.props.dispatch({
+            type: 'chat',
+            detail
+          });
+        });
 
-    zChat.getChatLog().forEach((detail) => {
-      this.props.dispatch({
-        type: 'chat',
-        detail
+        resolve();
       });
     });
   }
@@ -296,9 +301,14 @@ class App extends Component {
   }
 
   hideHistory() {
-    this.setState({
-      loading: false,
-      displayingHistory: false
+    return new Promise(resolve => {
+      this.setState(
+        {
+          loading: false,
+          displayingHistory: false
+        },
+        resolve
+      );
     });
   }
 
@@ -319,20 +329,28 @@ class App extends Component {
             minimizeOnClick={this.minimizeOnClick}
           />
 
-          {displayingHistory && <ChatHistory requestToken={this.props.requestToken}
-            onHistoryLoad={() => this.startHistoryLoad()} onHistoryLoaded={this.hideHistory} />}
+          {displayingHistory && (
+            <ChatHistory
+              requestToken={this.props.requestToken}
+              onHistoryLoad={() => this.startHistoryLoad()}
+              onHistoryLoaded={this.hideHistory}
+            />
+          )}
 
-          {!displayingHistory && <MessageList
-            isChatting={this.isChatEnabled()}
-            isOffline={isOffline}
-            messages={this.props.data && this.props.data.chats.toArray()}
-            agents={this.props.data.agents}
-            entities={entities}
-          />}
+          {!displayingHistory && (
+            <MessageList
+              isChatting={this.isChatEnabled()}
+              isOffline={isOffline}
+              messages={this.props.data && this.props.data.chats.toArray()}
+              agents={this.props.data.agents}
+              entities={entities}
+            />
+          )}
 
           <div
             className={`spinner-container ${
-              this.state.visible && (this.props.data.connection !== 'connected' || this.state.loading)
+              this.state.visible &&
+              (this.props.data.connection !== 'connected' || this.state.loading)
                 ? 'visible'
                 : ''
             }`}
@@ -340,16 +358,20 @@ class App extends Component {
             <div className="spinner" />
           </div>
 
-          {!displayingHistory && <Input
-            addClass={this.isChatEnabled() ? 'visible' : ''}
-            ref="input"
-            onSubmit={this.handleOnSubmit}
-            onChange={this.handleOnChange}
-            onFocus={this.inputOnFocus}
-            onFileUpload={this.handleFileUpload}
-          />}
+          {!displayingHistory && (
+            <Input
+              addClass={this.isChatEnabled() ? 'visible' : ''}
+              ref="input"
+              onSubmit={this.handleOnSubmit}
+              onChange={this.handleOnChange}
+              onFocus={this.inputOnFocus}
+              onFileUpload={this.handleFileUpload}
+            />
+          )}
 
-          {displayingHistory && <InitChatButton onClick={() => this.startChat()} />}
+          {displayingHistory && (
+            <InitChatButton onClick={() => this.startChat()} />
+          )}
         </div>
 
         <ChatButton
