@@ -81,35 +81,37 @@ function update(state = DEFAULT_STATE, action) {
 						[action.detail.timestamp]: {
 							...action.detail
 						}
-					});
+          });
 
 					return new_state;
 				case 'chat.memberleave':
 					if (!isAgent(action.detail.nick)) {
 						new_state.is_chatting = false;
-					}
+          }
 
 					// Concat this event to chats to be displayed
 					new_state.chats = state.chats.concat({
 						[action.detail.timestamp]: {
 							...action.detail
 						}
-					});
+          });
 
 					return new_state;
 				case 'chat.file':
 				case 'chat.wait_queue':
 				case 'chat.request.rating':
-				case 'chat.msg':
+        case 'chat.msg':
 					// Ensure that triggers are uniquely identified by their display names
 					if (isTrigger(action.detail.nick))
-						action.detail.nick = `agent:trigger:${action.detail.display_name}`;
+            action.detail.nick = `agent:trigger:${action.detail.display_name}`;
+
 					new_state.chats = state.chats.concat({
-						[action.detail.timestamp]: {
+						[`${action.detail.timestamp}${action.detail.msg_id}`]: {
 							...action.detail,
 							member_type: isAgent(action.detail.nick) ? 'agent' : 'visitor'
 						}
-					});
+          });
+
 					return new_state;
 				case 'typing':
 					let agent = state.agents[action.detail.nick];

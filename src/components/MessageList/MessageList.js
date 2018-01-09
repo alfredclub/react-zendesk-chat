@@ -37,7 +37,7 @@ class MessageList extends Component {
       case 'chat.msg':
         return (
           <ChatMessage
-            key={msg.type + msg.timestamp}
+            key={msg.type + msg.timestamp + msg.msg_id}
             message={msg}
             addClass={addClass}
             agent={this.props.agents[msg.nick]}
