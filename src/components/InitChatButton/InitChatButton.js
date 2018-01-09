@@ -6,12 +6,18 @@ class InitChatButton extends Component {
     super(props);
   }
 
+  getButtonText() {
+    const { chatSessionStarted } = this.props;
+
+    return chatSessionStarted ? 'Continue your conversation' : 'New Conversation';
+  }
+
   render() {
     const { onClick } = this.props;
 
     return (
       <div className="init-chat-container">
-        <button className="init-chat-btn" onClick={onClick}>New Conversation</button>
+        <button className="init-chat-btn" onClick={onClick}>{this.getButtonText()}</button>
       </div>
     );
   }

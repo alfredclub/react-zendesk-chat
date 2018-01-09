@@ -22,7 +22,7 @@ class StatusContainer extends Component {
   getStatusText(status) {
     switch (status) {
       case 'conversations':
-        return 'Conversations!';
+        return 'Previous Conversations!';
       case 'conversation_history':
         return 'Conversation History!';
       case 'online':

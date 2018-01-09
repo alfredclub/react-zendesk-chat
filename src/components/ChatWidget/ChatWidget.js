@@ -29,6 +29,7 @@ class App extends Component {
       theme: this.props.theme,
       typing: false,
       visible: false,
+      chatInitiated: false,
       displayingHistory: true,
       displayHistoryMessages: false,
       loading: true
@@ -57,6 +58,8 @@ class App extends Component {
     });
 
     this.setVisitorInfo();
+
+    this.setState({ chatInitiated: true });
 
     events.forEach(evt => {
       zChat.on(evt, data => {
@@ -321,6 +324,10 @@ class App extends Component {
     });
   }
 
+  hasChatSessionStarted() {
+    return this.state.chatInitiated && zChat.getChatLog().length > 0;
+  }
+
   render() {
     const entities = this.mapToEntities(
       this.props.data.visitor,
@@ -379,7 +386,8 @@ class App extends Component {
           )}
 
           {displayingHistory && (
-            <InitChatButton onClick={() => this.startChat()} />
+            <InitChatButton onClick={() => this.startChat()}
+              chatSessionStarted={this.hasChatSessionStarted()} />
           )}
         </div>
 
