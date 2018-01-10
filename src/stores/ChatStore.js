@@ -108,13 +108,12 @@ function update(state = DEFAULT_STATE, action) {
             action.detail.nick = `agent:trigger:${action.detail.display_name}`;
 
           const { msg_id, timestamp } = action.detail;
-          const id = msg_id ? `${timestamp}${msg_id}` : `${timestamp + 1}`;
+          const id = msg_id ? `${timestamp}${msg_id}` : timestamp;
 
 					new_state.chats = state.chats.concat({
 						[id]: {
 							...action.detail,
-              member_type: isAgent(action.detail.nick) ? 'agent' : 'visitor',
-              lol: 'droga'
+              member_type: isAgent(action.detail.nick) ? 'agent' : 'visitor'
 						}
           });
 
@@ -172,7 +171,7 @@ function storeHandler(state = DEFAULT_STATE, action) {
 	if (action.type === 'synthetic') {
 		log('synthetic action', action);
 
-		const new_timestamp = state.last_timestamp ? (state.last_timestamp + 1) : (new Date()).getTime();
+		const new_timestamp = !!state.last_timestamp ? (state.last_timestamp + 1) : (new Date()).getTime();
 
 		switch (action.detail.type) {
 			case 'visitor_send_msg':
