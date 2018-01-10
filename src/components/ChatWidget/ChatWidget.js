@@ -53,9 +53,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    zChat.init({
-      account_key: this.props.accountKey
-    });
+    if (!this.state.chatInitiated) {
+      zChat.init({
+        account_key: this.props.accountKey
+      });
+    }
 
     this.setVisitorInfo();
 

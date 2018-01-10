@@ -63,6 +63,7 @@ function update(state = DEFAULT_STATE, action) {
 			};
 		case 'chat':
 			let new_state = { ...state };
+
 			switch (action.detail.type) {
 				/* Web SDK events */
 				case 'chat.memberjoin':
@@ -106,10 +107,14 @@ function update(state = DEFAULT_STATE, action) {
 					if (isTrigger(action.detail.nick))
             action.detail.nick = `agent:trigger:${action.detail.display_name}`;
 
+          const { msg_id, timestamp } = action.detail;
+          const id = msg_id ? `${timestamp}${msg_id}` : `${timestamp + 1}`;
+
 					new_state.chats = state.chats.concat({
-						[`${action.detail.timestamp}${action.detail.msg_id}`]: {
+						[id]: {
 							...action.detail,
-							member_type: isAgent(action.detail.nick) ? 'agent' : 'visitor'
+              member_type: isAgent(action.detail.nick) ? 'agent' : 'visitor',
+              lol: 'droga'
 						}
           });
 
@@ -167,13 +172,7 @@ function storeHandler(state = DEFAULT_STATE, action) {
 	if (action.type === 'synthetic') {
 		log('synthetic action', action);
 
-		/**
-		 * Use last message timestamp for user-sent messages
-		 * instead of new Date() since there might be huge skew
-		 * between user's local computer and the server, which can
-		 * cause messages to appear in the wrong order.
-		 */
-		const new_timestamp = state.last_timestamp + 1;
+		const new_timestamp = state.last_timestamp ? (state.last_timestamp + 1) : (new Date()).getTime();
 
 		switch (action.detail.type) {
 			case 'visitor_send_msg':
